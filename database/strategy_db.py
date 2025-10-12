@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, DateTime, Time
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DECIMAL, ForeignKey, DateTime, Time
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
@@ -41,6 +41,7 @@ class Strategy(Base):
     user_id = Column(String(255), nullable=False)
     platform = Column(String(50), nullable=False, default='tradingview')  # Platform type (tradingview, chartink, etc)
     is_active = Column(Boolean, default=True)
+    realized_pnl = Column(DECIMAL(10, 2), nullable=False, default=0.00)
     is_intraday = Column(Boolean, default=True)
     trading_mode = Column(String(10), nullable=False, default='LONG')  # LONG, SHORT, or BOTH
     start_time = Column(String(5))  # HH:MM format
@@ -61,6 +62,7 @@ class StrategySymbolMapping(Base):
     symbol = Column(String(50), nullable=False)
     exchange = Column(String(10), nullable=False)
     quantity = Column(Integer, nullable=False)
+    price = Column(DECIMAL(10, 2), nullable=False, default=0.00)
     product_type = Column(String(10), nullable=False)  # MIS/CNC
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
@@ -128,6 +130,17 @@ def get_user_strategies(user_id):
         return strategies
     except Exception as e:
         logger.error(f"Error getting user strategies for {user_id}: {str(e)}")
+        return []
+    
+def get_active_user_strategies(user_id):
+    """Get all active strategies for a user"""
+    try:
+        logger.info(f"Fetching active strategies for user: {user_id}")
+        strategies = Strategy.query.filter_by(user_id=user_id, is_active=True).all()
+        logger.info(f"Found {len(strategies)} active user strategies")
+        return strategies
+    except Exception as e:
+        logger.error(f"Error getting active user strategies for {user_id}: {str(e)}")
         return []
 
 def delete_strategy(strategy_id):

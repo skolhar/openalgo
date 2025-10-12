@@ -27,13 +27,14 @@ from .openposition import api as openposition_ns
 from .ticker import api as ticker_ns
 from .symbol import api as symbol_ns
 from .search import api as search_ns
+from .strategy import api as strategies_ns
 from .expiry import api as expiry_ns
 from .analyzer import api as analyzer_ns
 from .ping import api as ping_ns
 from .telegram_bot import api as telegram_ns
 
-# Add namespaces
 api.add_namespace(place_order_ns, path='/placeorder')
+api.add_namespace(strategies_ns, path='/strategy')
 api.add_namespace(place_smart_order_ns, path='/placesmartorder')
 api.add_namespace(modify_order_ns, path='/modifyorder')
 api.add_namespace(cancel_order_ns, path='/cancelorder')
