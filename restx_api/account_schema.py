@@ -36,3 +36,10 @@ class AnalyzerToggleSchema(Schema):
 
 class PingSchema(Schema):
     apikey = fields.Str(required=True)
+
+class ActiveStrategiesSchema(Schema):
+    apikey = fields.Str(required=True)
+
+class StrategyDetailsRequestSchema(Schema):
+    apikey = fields.Str(required=True)
+    strategy_id = fields.Int(required=True)

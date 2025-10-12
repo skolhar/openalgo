@@ -154,3 +154,38 @@ class MarginCalculatorSchema(Schema):
         required=True,
         validate=validate.Length(min=1, max=50, error="Positions must contain 1 to 50 items.")
     )
+class StrategySymbolMappingSchema(Schema):
+    id = fields.Int()
+    strategy_id = fields.Int()
+    symbol = fields.Str()
+    quantity = fields.Int()
+    price = fields.Float()
+    index = fields.Str()
+    expiry = fields.Str()
+    strike = fields.Str()
+    type = fields.Str()
+    delta = fields.Float()
+    gamma = fields.Float()
+    theta = fields.Float()
+    vega = fields.Float()
+    rho = fields.Float()
+    IV = fields.Float()
+
+class StrategySchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+    is_active = fields.Bool()
+    index_spot = fields.Float()
+    realized_pnl = fields.Float()
+    symbol_mappings = fields.List(fields.Nested(StrategySymbolMappingSchema))
+
+
+class PlotPoint(Schema):
+    index_value = fields.Int()
+    on_expiry = fields.Float()
+    on_open = fields.Float()
+
+
+class StrategyDetailsResponseSchema(StrategySchema):
+    plot_data = fields.List(fields.Nested(PlotPoint))
+    breakeven_points = fields.List(fields.Float())

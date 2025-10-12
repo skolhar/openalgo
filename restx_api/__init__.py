@@ -28,6 +28,7 @@ from .openposition import api as openposition_ns
 from .ticker import api as ticker_ns
 from .symbol import api as symbol_ns
 from .search import api as search_ns
+from .strategy import api as strategies_ns
 from .expiry import api as expiry_ns
 from .option_symbol import api as option_symbol_ns
 from .options_order import api as options_order_ns
@@ -40,8 +41,8 @@ from .telegram_bot import api as telegram_ns
 from .margin import api as margin_ns
 from .instruments import api as instruments_ns
 
-# Add namespaces
 api.add_namespace(place_order_ns, path='/placeorder')
+api.add_namespace(strategies_ns, path='/strategy')
 api.add_namespace(place_smart_order_ns, path='/placesmartorder')
 api.add_namespace(modify_order_ns, path='/modifyorder')
 api.add_namespace(cancel_order_ns, path='/cancelorder')
