@@ -72,3 +72,6 @@ volumes:
     driver: local
   openalgo_sk_logs:
     driver: local
+
+networks:
+  openalgo_default:
